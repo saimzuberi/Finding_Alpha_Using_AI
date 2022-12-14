@@ -2,6 +2,28 @@
 
 Finding Alpha is a journey into finding a trading strategy that would allow for getting Alpha on a crypto currency. The system is designed in a manner that it takes Polygon API which is free source of data and allow us to fetch data of a wide verity of equities. 
 
+# Installation Guide
+
+Following are the imports necesssary for the note book to run. 
+
+                ! pip instal polygon-api-client          
+                ! pip install pandas
+                ! pip install numpy
+                ! pip install hvplot
+                ! pip install matplotlib 
+                ! pip intsall talib
+                ! pip install spicy 
+                ! pip install requests
+                ! pip install urllib3
+                ! pip install sklearn
+                ! pip install tensorflow
+                ! pip install keras
+
+# API KEY 
+
+API key can be obtained from https://polygon.io/docs/stocks/getting-started
+by creating a new account. 
+
 ## Polygon API
 
 Polygon API comes with pre canned functions and what we have implemented is a process to download data which bypasses the restrction on the number of requrest that we can pull on minute basis. 
@@ -89,7 +111,7 @@ The result of the same is the dataset that would be a dataframe with all the inf
 
 The resulting data frame looks like as below. 
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Dataframe%20BTC.png "BTC DATAFRAME")
+![Alt text](../Documentation/images/Dataframe%20BTC.png "BTC DATAFRAME")
 
 Implementing and HVPLOT for the same results. 
 
