@@ -111,7 +111,7 @@ The result of the same is the dataset that would be a dataframe with all the inf
 
 The resulting data frame looks like as below. 
 
-![Alt text](../blob/Documentation/images/Dataframe%20BTC.png "BTC DATAFRAME")
+![Alt text](../images/Dataframe%20BTC.png "BTC DATAFRAME")
 
 Implementing and HVPLOT for the same results. 
 
