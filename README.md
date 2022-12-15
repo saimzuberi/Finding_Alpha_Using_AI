@@ -111,11 +111,11 @@ The result of the same is the dataset that would be a dataframe with all the inf
 
 The resulting data frame looks like as below. 
 
-![Alt text](../images/Dataframe%20BTC.png "BTC DATAFRAME")
+![Alt text](../Finding_Alpha_Using_AI/images/Dataframe%20BTC.png "BTC DATAFRAME")
 
 Implementing and HVPLOT for the same results. 
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/BTC_HVPLOT.png "BTC DATAFRAME")
+![Alt text](../Finding_Alpha_Using_AI/images/BTC_HVPLOT.png "BTC DATAFRAME")
 
 ## CURRENCIES SELECTION
 
@@ -252,9 +252,19 @@ The following are the results for BTC and ETH
 
 ![Alt text](../Finding_Alpha_Using_AI/Documentation/images/ETH_ProfitLoss.png "BTC DATAFRAME")
 
-# USING AI TO PREDICT SIGNALS
+# USING AI TO CHANGE IN PRICE PERCENTAGE
 
-## Logistic Regresssion Results for Buy and Sell Signals
+We have use the following method to create a signal 
+
+        def signal(pct_change):
+                if pct_change>=0:
+                        return 1
+                else:
+                        return 0
+
+And we have created the consolidated dataframe of various crypto currencies. 
+
+![Alt text](/images/Combined_Data_Frame.png "BTC DATAFRAME")
 
 ### Logistic Regression Accuracy Score
 
