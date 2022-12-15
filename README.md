@@ -111,11 +111,11 @@ The result of the same is the dataset that would be a dataframe with all the inf
 
 The resulting data frame looks like as below. 
 
-![Alt text](../Finding_Alpha_Using_AI/images/Dataframe%20BTC.png "BTC DATAFRAME")
+![Alt text](/images/Dataframe%20BTC.png "BTC DATAFRAME")
 
 Implementing and HVPLOT for the same results. 
 
-![Alt text](../Finding_Alpha_Using_AI/images/BTC_HVPLOT.png "BTC DATAFRAME")
+![Alt text](/images/BTC_HVPLOT.png "BTC DATAFRAME")
 
 ## CURRENCIES SELECTION
 
@@ -175,7 +175,7 @@ Note : All of the above have rationalized to close
 
 As a result the indicator dataframe is as below for all cryptocurrencies
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Indicators_Dataframe.png "BTC DATAFRAME")
+![Alt text](/images/Indicators_Dataframe.png "BTC DATAFRAME")
 
 # Algorithimic Trading
 
@@ -211,46 +211,46 @@ The following are the results for BTC and ETH
 
 ## BTC ALGORITHM TRADES
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Trading_Algo_BTC.png "BTC DATAFRAME")
+![Alt text](/images/Trading_Algo_BTC.png "BTC DATAFRAME")
 
 ### BTC Portfolio Value
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/BTC_Portfolio_Value.png "BTC DATAFRAME")
+![Alt text](/images/BTC_Portfolio_Value.png "BTC DATAFRAME")
 
 ### BTC Risk / Reward Strategy
 
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/BTC_Risk_Reward.png "BTC DATAFRAME")
+![Alt text](/images/BTC_Risk_Reward.png "BTC DATAFRAME")
 
 ### BTC Trades
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/BTC_Trades.png "BTC DATAFRAME")
+![Alt text](/images/BTC_Trades.png "BTC DATAFRAME")
 
 ### BTC Profit & Loss
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/BTC_ProfitLoss.png "BTC DATAFRAME")
+![Alt text](/images/BTC_ProfitLoss.png "BTC DATAFRAME")
 
 ## ETH ALGORITHM TRADES
 
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Trading_Algo_ETH.png "BTC DATAFRAME")
+![Alt text](/images/Trading_Algo_ETH.png "BTC DATAFRAME")
 
 ### ETH Portfolio Value
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/ETH_Portfolio_Value.png "BTC DATAFRAME")
+![Alt text](/images/ETH_Portfolio_Value.png "BTC DATAFRAME")
 
 ### ETH Risk / Reward Strategy
 
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/ETH_Risk_Reward.png "BTC DATAFRAME")
+![Alt text](/images/ETH_Risk_Reward.png "BTC DATAFRAME")
 
 ### ETH Trades
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/ETH_Trades.png "BTC DATAFRAME")
+![Alt text](/images/ETH_Trades.png "BTC DATAFRAME")
 
 ### ETH Profit & Loss
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/ETH_ProfitLoss.png "BTC DATAFRAME")
+![Alt text](/images/ETH_ProfitLoss.png "BTC DATAFRAME")
 
 # USING AI TO CHANGE IN PRICE PERCENTAGE
 
@@ -264,37 +264,112 @@ We have use the following method to create a signal
 
 And we have created the consolidated dataframe of various crypto currencies. 
 
+# DATA CLEANING & INDEXING & DROPING NA
+
+        # Create empty dataframe to hold stock data
+        df_all_crypto=pd.DataFrame()
+        #create a list of data frames
+        list = [BTC_df,ETH_df,BNB_df,XRP_df,DOGE_df,MATIC_df]
+
+        # Combine individual stocks into a single data frame
+        df_all_crypto=pd.concat(list,axis=0)
+        # Drop the N/As
+        df_all_crypto = df_all_crypto.dropna()
+        #Sort Data
+        df_all_crypto=df_all_crypto.sort_values(['date','CRYPTO']).set_index(['date','CRYPTO'])
+        df_all_crypto
+
+The resulting Dataframe is as below.
+
 ![Alt text](/images/Combined_Data_Frame.png "BTC DATAFRAME")
+
+## SETTING UP DATA FOR AI & NEURAL NETOWRKS 
+
+1. Separating Data in Feature Set and Expected Out puts. 
+
+        X=df_all_crypto.drop(columns=['Signal'])
+        Y=df_all_crypto['Signal']
+
+2. Separating Data in Train and Test Segments
+
+        X_train = X[:1000000][:]
+        X_test= X[1000000:1100000][:]
+        y_train= Y[:1000000][:]
+        y_test=Y[1000000:1100000][:] 
+3. Scaling Feature set using Min Max Scaler
+
+        scaler = MinMaxScaler()
+        X_scaler = scaler.fit(X_train)
+        X_train_scaled = X_scaler.transform(X_train)
+        X_test_scaled = X_scaler.transform(X_test)
+
+4.(a) Initiate Logistic Regression Model
+
+###     MODEL
+        logistic_regression_model = LogisticRegression(random_state=1, max_iter= 3000)
+
+###     FIT 
+        lr_model = logistic_regression_model.fit(X_train_scaled, y_train)
+
+###     PREDICT
+        testing_predictions_lr = lr_model.predict(X_test_scaled)
+
+
+## USING LOGISTIC REGRESSION
+Setting 
 
 ### Logistic Regression Accuracy Score
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Logisstic_Regression_Accuracy%20Score.png "BTC DATAFRAME")
+![Alt text](/images/LR_Accuracy_Score.png "BTC DATAFRAME")
+
 
 ### Logisstic Regression Confusion Matrix
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Logistic_Regression%20Confussion%20Matrix.png "BTC DATAFRAME")
+![Alt text](/images/LRConfusion_Matrix.png "BTC DATAFRAME")
 
 ### Classification Report
 
-                       precision  recall  f1-score   support      
-        -1.0            1.00      1.00      1.00      4981       
-        1.0             0.00       0.00     0.00        19    accuracy                              1.00     5000   
-        macro avg       0.50      0.50      0.50      5000
-        weighted avg    0.99      1.00      0.99      5000
+                precision    recall  f1-score  support        
+        0       0.51      0.14      0.22     50411          
+        1       0.50      0.86      0.63     49589    
+        accuracy                      0.50    100000
+        macro avg0.50      0.50      0.43    100000
+        weighted avg0.50      0.50      0.43    100000
 
+4.(b) Initiate Neural Network Model
 
-# NEURAL NETWORK 
+### MODEL
 
-Setting up the Neural Network Model
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Screenshot%202022-12-14%20at%205.19.58%20PM.png "BTC DATAFRAME")
+         Define the model - deep neural net with two hidden layers
+        number_input_features = 10
+        hidden_nodes_layer1 = 8
+        hidden_nodes_layer2 = 4
 
-![Alt text](../Finding_Alpha_Using_AI/Documentation/images/Screenshot%202022-12-14%20at%205.21.40%20PM.png "BTC DATAFRAME")
+        # Create a sequential neural network model
+        nn_1 = Sequential()
 
-## Neural Network Result
+        # Add the first hidden layer
+        nn_1.add(Dense(units=hidden_nodes_layer1, input_dim=number_input_features, activation="relu"))
 
-        157/157 - 0s - 
-        loss: 822395.6250 - 
-        mse: 822395.6250 - 311ms/epoch - 2ms/step
-        Loss: 822395.625, 
-        Accuracy: 822395.625
+        # Add the second hidden layer
+        nn_1.add(Dense(units=hidden_nodes_layer2, activation="relu"))
 
+        # Add the output layer
+        nn_1.add(Dense(units=1, activation="linear"))
+
+### COMPILE 
+        nn_1.compile(loss="mean_squared_error", optimizer="adam", metrics=["mse"])
+
+### FIT
+        deep_net_model_1 = nn_1.fit(X_train_scaled, y_train, epochs=10)
+
+### TEST
+        model_loss, model_accuracy = nn_1.evaluate(X_test_scaled, y_test, verbose=2)
+
+### EVALUATION REPORT 
+        3125/3125 - 11s - 
+        loss: 0.2510 - 
+        mse: 0.2510 - 
+        11s/epoch - 4ms/step
+        Loss: 0.2509991526603699, 
+        Accuracy: 0.2509991526603699
